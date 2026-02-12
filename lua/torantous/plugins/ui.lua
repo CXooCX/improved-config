@@ -1,264 +1,68 @@
+-- Shared color palette (oxocarbon-compatible)
+local colors = {
+  red = "#ee5396",
+  green = "#42be65",
+  blue = "#78a9ff",
+  yellow = "#ffe97b",
+  peach = "#ff832b",
+  mauve = "#be95ff",
+  teal = "#3ddbd9",
+  sky = "#82cfff",
+  pink = "#ff7eb6",
+  text = "#f2f4f8",
+  subtext1 = "#dde1e6",
+  overlay0 = "#525252",
+  overlay1 = "#6f6f6f",
+  surface0 = "#262626",
+  surface1 = "#393939",
+  mantle = "#161616",
+  base = "#0d0d0d",
+  crust = "#000000",
+}
+
 return {
   -- ══════════════════════════════════════════════════════════════════════
-  -- CATPPUCCIN THEME (vibrant + custom highlights)
+  -- OXOCARBON THEME (void black, high contrast)
   -- ══════════════════════════════════════════════════════════════════════
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    "nyoom-engineering/oxocarbon.nvim",
     priority = 1000,
     config = function()
-      require("catppuccin").setup({
-        flavour = "mocha",
-        transparent_background = false,
-        term_colors = true,
-        dim_inactive = {
-          enabled = true,
-          shade = "dark",
-          percentage = 0.19,
-        },
-        styles = {
-          comments = { "italic" },
-          conditionals = { "italic" },
-          loops = { "bold" },
-          functions = { "bold" },
-          keywords = { "italic" },
-          strings = {},
-          variables = {},
-          numbers = { "bold" },
-          booleans = { "bold", "italic" },
-          properties = {},
-          types = { "bold" },
-          operators = {},
-        },
-        color_overrides = {
-          mocha = {
-            -- Make it more vibrant
-            rosewater = "#f5e0dc",
-            flamingo = "#f2cdcd",
-            pink = "#f5c2e7",
-            mauve = "#cba6f7",
-            red = "#f38ba8",
-            maroon = "#eba0ac",
-            peach = "#fab387",
-            yellow = "#f9e2af",
-            green = "#a6e3a1",
-            teal = "#94e2d5",
-            sky = "#89dceb",
-            sapphire = "#74c7ec",
-            blue = "#89b4fa",
-            lavender = "#b4befe",
-            text = "#cdd6f4",
-            subtext1 = "#bac2de",
-            subtext0 = "#a6adc8",
-            overlay2 = "#9399b2",
-            overlay1 = "#7f849c",
-            overlay0 = "#6c7086",
-            surface2 = "#585b70",
-            surface1 = "#45475a",
-            surface0 = "#313244",
-            base = "#1e1e2e",
-            mantle = "#181825",
-            crust = "#11111b",
-          },
-        },
-        custom_highlights = function(colors)
-          return {
-            -- Vibrant cursor line
-            CursorLine = { bg = colors.surface0 },
-            CursorLineNr = { fg = colors.mauve, bold = true },
-            LineNr = { fg = colors.overlay0 },
+      vim.opt.background = "dark"
+      vim.cmd.colorscheme("oxocarbon")
 
-            -- Pumped up search
-            Search = { bg = colors.yellow, fg = colors.base, bold = true },
-            IncSearch = { bg = colors.peach, fg = colors.base, bold = true },
-            CurSearch = { bg = colors.red, fg = colors.base, bold = true },
+      -- Force transparent background
+      vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE" })
 
-            -- Vibrant matching parens
-            MatchParen = { fg = colors.peach, bg = colors.surface1, bold = true },
+      -- Border hardening: all floating windows use "single" borders
+      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#525252", bg = "NONE" })
+      vim.api.nvim_set_hl(0, "FloatTitle", { fg = "#ee5396", bg = "NONE", bold = true })
 
-            -- Better visual selection
-            Visual = { bg = colors.surface1, bold = true },
-            VisualNOS = { bg = colors.surface1 },
-
-            -- Pumped diagnostics
-            DiagnosticVirtualTextError = { fg = colors.red, bg = colors.surface0, italic = true },
-            DiagnosticVirtualTextWarn = { fg = colors.yellow, bg = colors.surface0, italic = true },
-            DiagnosticVirtualTextInfo = { fg = colors.sky, bg = colors.surface0, italic = true },
-            DiagnosticVirtualTextHint = { fg = colors.teal, bg = colors.surface0, italic = true },
-
-            -- Floating windows
-            NormalFloat = { bg = colors.mantle },
-            FloatBorder = { fg = colors.mauve, bg = colors.mantle },
-            FloatTitle = { fg = colors.peach, bg = colors.mantle, bold = true },
-
-            -- Telescope
-            TelescopeBorder = { fg = colors.mauve, bg = colors.mantle },
-            TelescopeNormal = { bg = colors.mantle },
-            TelescopePreviewBorder = { fg = colors.green, bg = colors.mantle },
-            TelescopePreviewNormal = { bg = colors.mantle },
-            TelescopePreviewTitle = { fg = colors.base, bg = colors.green, bold = true },
-            TelescopePromptBorder = { fg = colors.peach, bg = colors.surface0 },
-            TelescopePromptNormal = { bg = colors.surface0 },
-            TelescopePromptTitle = { fg = colors.base, bg = colors.peach, bold = true },
-            TelescopeResultsBorder = { fg = colors.mauve, bg = colors.mantle },
-            TelescopeResultsTitle = { fg = colors.base, bg = colors.mauve, bold = true },
-            TelescopeSelection = { bg = colors.surface1, fg = colors.text, bold = true },
-
-            -- Pmenu (completion)
-            Pmenu = { bg = colors.mantle, fg = colors.text },
-            PmenuSel = { bg = colors.surface1, fg = colors.text, bold = true },
-            PmenuSbar = { bg = colors.surface0 },
-            PmenuThumb = { bg = colors.mauve },
-
-            -- Git signs vibrant
-            GitSignsAdd = { fg = colors.green },
-            GitSignsChange = { fg = colors.peach },
-            GitSignsDelete = { fg = colors.red },
-
-            -- Indent guides
-            IblIndent = { fg = colors.surface0 },
-            IblScope = { fg = colors.mauve },
-
-            -- Which-key
-            WhichKey = { fg = colors.mauve, bold = true },
-            WhichKeyGroup = { fg = colors.peach },
-            WhichKeyDesc = { fg = colors.text },
-            WhichKeySeparator = { fg = colors.overlay0 },
-            WhichKeyFloat = { bg = colors.mantle },
-            WhichKeyBorder = { fg = colors.mauve, bg = colors.mantle },
-
-            -- Nvim Tree
-            NvimTreeNormal = { bg = colors.mantle },
-            NvimTreeNormalNC = { bg = colors.mantle },
-            NvimTreeWinSeparator = { fg = colors.mantle, bg = colors.mantle },
-            NvimTreeFolderIcon = { fg = colors.peach },
-            NvimTreeFolderName = { fg = colors.blue },
-            NvimTreeOpenedFolderName = { fg = colors.peach, bold = true },
-            NvimTreeRootFolder = { fg = colors.mauve, bold = true },
-            NvimTreeSpecialFile = { fg = colors.yellow, bold = true },
-            NvimTreeGitDirty = { fg = colors.peach },
-            NvimTreeGitNew = { fg = colors.green },
-            NvimTreeGitDeleted = { fg = colors.red },
-
-            -- Noice
-            NoiceCmdline = { bg = colors.surface0 },
-            NoiceCmdlineIcon = { fg = colors.peach },
-            NoiceCmdlinePopup = { bg = colors.mantle },
-            NoiceCmdlinePopupBorder = { fg = colors.mauve },
-            NoicePopup = { bg = colors.mantle },
-            NoicePopupBorder = { fg = colors.mauve },
-
-            -- Notify
-            NotifyBackground = { bg = colors.mantle },
-            NotifyERRORBorder = { fg = colors.red },
-            NotifyERRORIcon = { fg = colors.red },
-            NotifyERRORTitle = { fg = colors.red, bold = true },
-            NotifyWARNBorder = { fg = colors.yellow },
-            NotifyWARNIcon = { fg = colors.yellow },
-            NotifyWARNTitle = { fg = colors.yellow, bold = true },
-            NotifyINFOBorder = { fg = colors.green },
-            NotifyINFOIcon = { fg = colors.green },
-            NotifyINFOTitle = { fg = colors.green, bold = true },
-
-            -- Bufferline
-            BufferLineFill = { bg = colors.crust },
-            BufferLineBackground = { bg = colors.mantle, fg = colors.overlay1 },
-            BufferLineBufferSelected = { bg = colors.base, fg = colors.text, bold = true, italic = false },
-            BufferLineIndicatorSelected = { fg = colors.peach },
-          }
-        end,
-        integrations = {
-          alpha = true,
-          cmp = true,
-          gitsigns = true,
-          nvimtree = true,
-          telescope = { enabled = true },
-          treesitter = true,
-          which_key = true,
-          indent_blankline = { enabled = true, colored_indent_levels = true },
-          native_lsp = {
-            enabled = true,
-            virtual_text = {
-              errors = { "italic" },
-              hints = { "italic" },
-              warnings = { "italic" },
-              information = { "italic" },
-            },
-            underlines = {
-              errors = { "undercurl" },
-              hints = { "undercurl" },
-              warnings = { "undercurl" },
-              information = { "undercurl" },
-            },
-          },
-          navic = { enabled = true, custom_bg = "NONE" },
-          noice = true,
-          notify = true,
-          mini = true,
-          dap = { enabled = true, enable_ui = true },
-        },
-      })
-      vim.cmd.colorscheme("catppuccin")
+      -- Telescope borders
+      vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#525252", bg = "NONE" })
+      vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { fg = "#525252", bg = "NONE" })
+      vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = "#525252", bg = "NONE" })
+      vim.api.nvim_set_hl(0, "TelescopeResultsBorder", { fg = "#525252", bg = "NONE" })
     end,
   },
 
   -- ══════════════════════════════════════════════════════════════════════
-  -- LUALINE (sick statusline)
+  -- LUALINE (bare metal statusline)
   -- ══════════════════════════════════════════════════════════════════════
   {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "VeryLazy",
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
-
-      -- Custom components
-      local mode_icon = {
-        "mode",
-        fmt = function(str)
-          local mode_icons = {
-            NORMAL = " ",
-            INSERT = " ",
-            VISUAL = "󰈈 ",
-            ["V-LINE"] = "󰈈 ",
-            ["V-BLOCK"] = "󰈈 ",
-            REPLACE = " ",
-            COMMAND = " ",
-            TERMINAL = " ",
-          }
-          return (mode_icons[str] or " ") .. str
-        end,
-      }
-
-      local diff = {
-        "diff",
-        symbols = { added = " ", modified = "󰝤 ", removed = " " },
-        colored = true,
-        diff_color = {
-          added = { fg = mocha.green },
-          modified = { fg = mocha.peach },
-          removed = { fg = mocha.red },
-        },
-      }
-
       local diagnostics = {
         "diagnostics",
         sources = { "nvim_diagnostic" },
         symbols = { error = " ", warn = " ", info = " ", hint = "󰌵 " },
         colored = true,
-        diagnostics_color = {
-          error = { fg = mocha.red },
-          warn = { fg = mocha.yellow },
-          info = { fg = mocha.sky },
-          hint = { fg = mocha.teal },
-        },
-      }
-
-      local filetype_icon = {
-        "filetype",
-        icon_only = true,
-        colored = true,
-        padding = { left = 1, right = 0 },
       }
 
       local filename = {
@@ -284,98 +88,25 @@ return {
           end
           return "  " .. table.concat(names, ", ")
         end,
-        color = { fg = mocha.mauve },
       }
 
-      local location = {
-        "location",
-        fmt = function()
-          local line = vim.fn.line(".")
-          local col = vim.fn.col(".")
-          local total = vim.fn.line("$")
-          return string.format(" %d/%d  %d", line, total, col)
-        end,
-      }
-
-      local clock = {
-        function()
-          return os.date(" %H:%M")
-        end,
-        color = { fg = mocha.sky },
-      }
-
-      -- Runner Mode HUD: shows current Runner target/mode in the statusline
-      local runner_mode = {
-        function()
-          if not _G.Runner or not _G.Runner.state or not _G.Runner.state.last_mode then
-            return ""
-          end
-          local mode = _G.Runner.state.last_mode
-          local icon
-          if mode:match("win32") or mode:match("dll") then
-            icon = " "
-          elseif mode == "asm_bin" or mode:match("shellcode") then
-            icon = "💣 "
-          elseif mode == "hex" then
-            icon = "01 "
-          else
-            icon = " "
-          end
-          return icon .. mode
-        end,
-        cond = function()
-          return _G.Runner ~= nil
-            and _G.Runner.state ~= nil
-            and _G.Runner.state.last_mode ~= nil
-        end,
-        color = { fg = mocha.red, gui = "bold" },
-      }
-      -- Custom Runner Status Component
-      local runner_status = {
-        function()
-          if not _G.Runner or not _G.Runner.state or not _G.Runner.state.last_mode then
-            return ""
-          end
-          
-          local mode = _G.Runner.state.last_mode
-          local icon = " " -- Default gear
-          
-          if mode:match("win32") or mode:match("dll") then
-            icon = " " -- Windows icon for cross-compile
-          elseif mode:match("asm_bin") or mode:match("shellcode") then
-            icon = " " -- Terminal/Shell for shellcode
-          elseif mode:match("hex") then
-            icon = " " -- Binary/Hex icon
-          end
-          
-          return icon .. mode:upper()
-        end,
-        color = { fg = mocha.red, gui = "bold" },
-      }
       require("lualine").setup({
         options = {
-          theme = "catppuccin",
+          theme = "auto",
           section_separators = { left = "", right = "" },
           component_separators = { left = "│", right = "│" },
           globalstatus = true,
           disabled_filetypes = {
             statusline = { "alpha", "dashboard" },
-            winbar = {},
           },
         },
         sections = {
-          lualine_a = { mode_icon },
-          lualine_b = {
-            { "branch", icon = "", color = { fg = mocha.pink, gui = "bold" } },
-            diff,
-          },
-          lualine_c = { filetype_icon, filename, diagnostics, runner_mode },
-          lualine_x = { runner_status, lsp_info, "encoding" },
-          lualine_y = {
-            { "progress", color = { fg = mocha.peach } },
-          },
-          lualine_z = { location, clock },
-
+          lualine_a = { "mode" },
+          lualine_b = {},
+          lualine_c = { filename, diagnostics },
+          lualine_x = { lsp_info },
+          lualine_y = {},
+          lualine_z = { "location" },
         },
         inactive_sections = {
           lualine_a = {},
@@ -388,17 +119,15 @@ return {
       })
     end,
   },
-
   -- ══════════════════════════════════════════════════════════════════════
   -- BUFFERLINE (beautiful tabs)
   -- ══════════════════════════════════════════════════════════════════════
   {
     "akinsho/bufferline.nvim",
     version = "*",
-    dependencies = { "nvim-tree/nvim-web-devicons", "catppuccin/nvim" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "VeryLazy",
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
 
       require("bufferline").setup({
         options = {
@@ -457,7 +186,6 @@ return {
     "folke/which-key.nvim",
     event = "VeryLazy",
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
 
       require("which-key").setup({
         preset = "modern",
@@ -502,7 +230,7 @@ return {
           },
         },
         win = {
-          border = "rounded",
+          border = "single",
           padding = { 1, 2 },
           title = true,
           title_pos = "center",
@@ -529,48 +257,19 @@ return {
   },
 
   -- ══════════════════════════════════════════════════════════════════════
-  -- INDENT BLANKLINE (rainbow indent guides)
+  -- INDENT BLANKLINE (simple indent guides)
   -- ══════════════════════════════════════════════════════════════════════
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
     event = "VeryLazy",
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
-
-      -- Rainbow colors
-      local highlight = {
-        "RainbowRed",
-        "RainbowYellow",
-        "RainbowBlue",
-        "RainbowOrange",
-        "RainbowGreen",
-        "RainbowViolet",
-        "RainbowCyan",
-      }
-
-      local hooks = require("ibl.hooks")
-      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-        vim.api.nvim_set_hl(0, "RainbowRed", { fg = mocha.red })
-        vim.api.nvim_set_hl(0, "RainbowYellow", { fg = mocha.yellow })
-        vim.api.nvim_set_hl(0, "RainbowBlue", { fg = mocha.blue })
-        vim.api.nvim_set_hl(0, "RainbowOrange", { fg = mocha.peach })
-        vim.api.nvim_set_hl(0, "RainbowGreen", { fg = mocha.green })
-        vim.api.nvim_set_hl(0, "RainbowViolet", { fg = mocha.mauve })
-        vim.api.nvim_set_hl(0, "RainbowCyan", { fg = mocha.teal })
-      end)
-
       require("ibl").setup({
         indent = {
           char = "│",
-          highlight = highlight,
         },
         scope = {
-          enabled = true,
-          char = "┃",
-          highlight = { "RainbowViolet" },
-          show_start = true,
-          show_end = false,
+          enabled = false,
         },
         exclude = {
           filetypes = {
@@ -598,7 +297,6 @@ return {
     config = function()
       local alpha = require("alpha")
       local dashboard = require("alpha.themes.dashboard")
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
 
       -- Sick ASCII art header
       dashboard.section.header.val = {
@@ -706,9 +404,9 @@ return {
       vim.api.nvim_set_hl(0, "AlphaHeaderSky", { fg = "#89dceb" })
       vim.api.nvim_set_hl(0, "AlphaHeaderBlue", { fg = "#89b4fa" })
       vim.api.nvim_set_hl(0, "AlphaHeaderMauve", { fg = "#cba6f7" })
-      vim.api.nvim_set_hl(0, "AlphaButtons", { fg = mocha.text })
-      vim.api.nvim_set_hl(0, "AlphaShortcut", { fg = mocha.peach, bold = true })
-      vim.api.nvim_set_hl(0, "AlphaFooter", { fg = mocha.overlay1, italic = true })
+      vim.api.nvim_set_hl(0, "AlphaButtons", { fg = colors.text })
+      vim.api.nvim_set_hl(0, "AlphaShortcut", { fg = colors.peach, bold = true })
+      vim.api.nvim_set_hl(0, "AlphaFooter", { fg = colors.overlay1, italic = true })
 
       alpha.setup(dashboard.config)
 
@@ -790,13 +488,13 @@ return {
           cmdline_popup = {
             position = { row = 5, col = "50%" },
             size = { width = 60, height = "auto" },
-            border = { style = "rounded", padding = { 0, 1 } },
+            border = { style = "single", padding = { 0, 1 } },
           },
           popupmenu = {
             relative = "editor",
             position = { row = 8, col = "50%" },
             size = { width = 60, height = 10 },
-            border = { style = "rounded", padding = { 0, 1 } },
+            border = { style = "single", padding = { 0, 1 } },
           },
         },
       })
@@ -810,10 +508,9 @@ return {
     "rcarriga/nvim-notify",
     event = "VeryLazy",
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
 
       require("notify").setup({
-        background_colour = mocha.base,
+        background_colour = colors.base,
         fps = 144,
         icons = {
           DEBUG = " ",
@@ -832,11 +529,11 @@ return {
       })
 
       -- Custom neon glow highlights for notification borders
-      vim.api.nvim_set_hl(0, "NotifyERRORBorder", { fg = mocha.red })
-      vim.api.nvim_set_hl(0, "NotifyWARNBorder", { fg = mocha.yellow })
-      vim.api.nvim_set_hl(0, "NotifyINFOBorder", { fg = mocha.green })
-      vim.api.nvim_set_hl(0, "NotifyDEBUGBorder", { fg = mocha.sky })
-      vim.api.nvim_set_hl(0, "NotifyTRACEBorder", { fg = mocha.mauve })
+      vim.api.nvim_set_hl(0, "NotifyERRORBorder", { fg = colors.red })
+      vim.api.nvim_set_hl(0, "NotifyWARNBorder", { fg = colors.yellow })
+      vim.api.nvim_set_hl(0, "NotifyINFOBorder", { fg = colors.green })
+      vim.api.nvim_set_hl(0, "NotifyDEBUGBorder", { fg = colors.sky })
+      vim.api.nvim_set_hl(0, "NotifyTRACEBorder", { fg = colors.mauve })
 
       vim.notify = require("notify")
     end,
@@ -877,7 +574,6 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     event = "VeryLazy",
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
 
       require("todo-comments").setup({
         signs = true,
@@ -892,12 +588,12 @@ return {
           TEST = { icon = "󰙨 ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
         },
         colors = {
-          error = { mocha.red },
-          warning = { mocha.yellow },
-          info = { mocha.blue },
-          hint = { mocha.teal },
-          default = { mocha.mauve },
-          test = { mocha.pink },
+          error = { colors.red },
+          warning = { colors.yellow },
+          info = { colors.blue },
+          hint = { colors.teal },
+          default = { colors.mauve },
+          test = { colors.pink },
         },
         highlight = {
           multiline = true,
@@ -911,29 +607,6 @@ return {
           max_line_len = 400,
           exclude = {},
         },
-      })
-    end,
-  },
-
-  -- ══════════════════════════════════════════════════════════════════════
-  -- MINI ANIMATIONS (smooth scrolling + cursor)
-  -- ══════════════════════════════════════════════════════════════════════
-  {
-    "echasnovski/mini.animate",
-    event = "VeryLazy",
-    config = function()
-      require("mini.animate").setup({
-        cursor = {
-          enable = true,
-          timing = require("mini.animate").gen_timing.linear({ duration = 80, unit = "total" }),
-        },
-        scroll = {
-          enable = true,
-          timing = require("mini.animate").gen_timing.linear({ duration = 100, unit = "total" }),
-        },
-        resize = { enable = false },
-        open = { enable = false },
-        close = { enable = false },
       })
     end,
   },
@@ -1001,26 +674,6 @@ return {
     end,
   },
 
-  -- SMOOTH CURSOR (macchiato neon tail)
-  {
-    "gen740/SmoothCursor.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("smoothcursor").setup({
-        fancy = {
-          enable = true,
-          head = { cursor = "▶", texthl = "SmoothCursor", linehl = nil },
-          body = {
-            { cursor = "•", texthl = "SmoothCursorOrange" },
-            { cursor = "•", texthl = "SmoothCursorYellow" },
-            { cursor = "•", texthl = "SmoothCursorGreen" },
-          },
-          tail = { cursor = "•", texthl = "SmoothCursorBlue" },
-        },
-      })
-    end,
-  },
-
   -- TOGGLETERM (floating terminals with neon border)
   {
     "akinsho/toggleterm.nvim",
@@ -1030,7 +683,7 @@ return {
         size = 20,
         open_mapping = [[<leader>tt]],
         direction = "float",
-        float_opts = { border = "double", winblend = 3 },
+        float_opts = { border = "single", winblend = 3 },
         shade_filetypes = {},
         shade_terminals = true,
         shading_factor = 2,
@@ -1042,139 +695,19 @@ return {
   },
 
   -- ══════════════════════════════════════════════════════════════════════
-  -- DROPBAR (VS Code-like breadcrumbs at top)
-  -- ══════════════════════════════════════════════════════════════════════
-  {
-    "Bekaboo/dropbar.nvim",
-    event = "VeryLazy",
-    dependencies = { "nvim-telescope/telescope-fzf-native.nvim" },
-    config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
-
-      require("dropbar").setup({
-        icons = {
-          enable = true,
-          kinds = {
-            symbols = {
-              Array = "󰅪 ",
-              Boolean = " ",
-              BreakStatement = "󰙧 ",
-              Call = "󰃷 ",
-              CaseStatement = "󱃙 ",
-              Class = " ",
-              Color = "󰏘 ",
-              Constant = "󰏿 ",
-              Constructor = " ",
-              ContinueStatement = "→ ",
-              Copilot = " ",
-              Declaration = "󰙠 ",
-              Delete = "󰩺 ",
-              DoStatement = "󰑖 ",
-              Enum = " ",
-              EnumMember = " ",
-              Event = " ",
-              Field = " ",
-              File = "󰈔 ",
-              Folder = " ",
-              ForStatement = "󰑖 ",
-              Function = "󰊕 ",
-              Identifier = "󰀫 ",
-              IfStatement = "󰇉 ",
-              Interface = " ",
-              Keyword = " ",
-              List = "󰅪 ",
-              Log = "󰦪 ",
-              Lsp = " ",
-              Macro = "󰁌 ",
-              MarkdownH1 = "󰉫 ",
-              MarkdownH2 = "󰉬 ",
-              MarkdownH3 = "󰉭 ",
-              MarkdownH4 = "󰉮 ",
-              MarkdownH5 = "󰉯 ",
-              MarkdownH6 = "󰉰 ",
-              Method = "󰆧 ",
-              Module = "󰏗 ",
-              Namespace = " ",
-              Null = "󰟢 ",
-              Number = "󰎠 ",
-              Object = " ",
-              Operator = "󰆕 ",
-              Package = "󰏗 ",
-              Property = " ",
-              Reference = " ",
-              Regex = " ",
-              Repeat = "󰑖 ",
-              Scope = " ",
-              Snippet = " ",
-              Specifier = "󰦪 ",
-              Statement = " ",
-              String = " ",
-              Struct = " ",
-              SwitchStatement = "󰺟 ",
-              Terminal = " ",
-              Text = " ",
-              Type = " ",
-              TypeParameter = "󰆩 ",
-              Unit = " ",
-              Value = "󰎠 ",
-              Variable = "󰀫 ",
-              WhileStatement = "󰑖 ",
-            },
-          },
-          ui = {
-            bar = {
-              separator = "  ",
-              extends = "…",
-            },
-            menu = {
-              separator = " ",
-              indicator = " ",
-            },
-          },
-        },
-        bar = {
-          hover = true,
-          sources = function(buf, _)
-            local sources = require("dropbar.sources")
-            local utils = require("dropbar.utils")
-            if vim.bo[buf].ft == "markdown" then
-              return { sources.markdown }
-            end
-            if vim.bo[buf].buftype == "terminal" then
-              return { sources.terminal }
-            end
-            return { sources.path, utils.source.fallback({ sources.lsp, sources.treesitter }) }
-          end,
-          padding = { left = 1, right = 1 },
-        },
-      })
-
-      -- Highlights
-      vim.api.nvim_set_hl(0, "DropBarIconKindFunction", { fg = mocha.mauve })
-      vim.api.nvim_set_hl(0, "DropBarIconKindMethod", { fg = mocha.mauve })
-      vim.api.nvim_set_hl(0, "DropBarIconKindClass", { fg = mocha.yellow })
-      vim.api.nvim_set_hl(0, "DropBarIconKindStruct", { fg = mocha.yellow })
-      vim.api.nvim_set_hl(0, "DropBarIconKindModule", { fg = mocha.blue })
-      vim.api.nvim_set_hl(0, "DropBarIconKindFile", { fg = mocha.text })
-      vim.api.nvim_set_hl(0, "DropBarIconKindFolder", { fg = mocha.peach })
-    end,
-  },
-
-  -- ══════════════════════════════════════════════════════════════════════
   -- HLCHUNK (better code context lines)
   -- ══════════════════════════════════════════════════════════════════════
   {
     "shellRaining/hlchunk.nvim",
     event = "VeryLazy",
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
 
       require("hlchunk").setup({
         chunk = {
           enable = true,
           style = {
-            { fg = mocha.mauve },
-            { fg = mocha.red },
+            { fg = colors.mauve },
+            { fg = colors.red },
           },
           use_treesitter = true,
           chars = {
@@ -1192,13 +725,13 @@ return {
         },
         indent = {
           enable = true,
-          style = { { fg = mocha.surface0 } },
+          style = { { fg = colors.surface0 } },
           use_treesitter = false,
           chars = { "│" },
         },
         line_num = {
           enable = true,
-          style = mocha.mauve,
+          style = colors.mauve,
           use_treesitter = true,
         },
         blank = { enable = false },
@@ -1213,15 +746,14 @@ return {
     "mvllow/modes.nvim",
     event = "VeryLazy",
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
 
       require("modes").setup({
         colors = {
           bg = "",
-          copy = mocha.yellow,
-          delete = mocha.red,
-          insert = mocha.green,
-          visual = mocha.mauve,
+          copy = colors.yellow,
+          delete = colors.red,
+          insert = colors.green,
+          visual = colors.mauve,
         },
         line_opacity = 0.25,
         set_cursor = true,
@@ -1239,7 +771,6 @@ return {
     "rasulomaroff/reactive.nvim",
     event = "VeryLazy",
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
 
       require("reactive").setup({
         builtin = {
@@ -1247,7 +778,7 @@ return {
           cursor = true,
           modemsg = true,
         },
-        load = { "catppuccin-mocha-cursor", "catppuccin-mocha-cursorline" },
+        load = {},
       })
     end,
   },
@@ -1260,7 +791,6 @@ return {
     event = "VeryLazy",
     dependencies = { "lewis6991/gitsigns.nvim" },
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
 
       require("scrollbar").setup({
         show = true,
@@ -1273,22 +803,22 @@ return {
         handle = {
           text = " ",
           blend = 30,
-          color = mocha.surface1,
+          color = colors.surface1,
           color_nr = nil,
           highlight = "ScrollbarHandle",
           hide_if_all_visible = true,
         },
         marks = {
-          Cursor = { text = "•", priority = 0, gui = nil, color = mocha.mauve, cterm = nil, color_nr = nil, highlight = "ScrollbarCursor" },
-          Search = { text = { "-", "=" }, priority = 1, gui = nil, color = mocha.peach, cterm = nil, color_nr = nil, highlight = "ScrollbarSearch" },
-          Error = { text = { "-", "=" }, priority = 2, gui = nil, color = mocha.red, cterm = nil, color_nr = nil, highlight = "ScrollbarError" },
-          Warn = { text = { "-", "=" }, priority = 3, gui = nil, color = mocha.yellow, cterm = nil, color_nr = nil, highlight = "ScrollbarWarn" },
-          Info = { text = { "-", "=" }, priority = 4, gui = nil, color = mocha.sky, cterm = nil, color_nr = nil, highlight = "ScrollbarInfo" },
-          Hint = { text = { "-", "=" }, priority = 5, gui = nil, color = mocha.teal, cterm = nil, color_nr = nil, highlight = "ScrollbarHint" },
-          Misc = { text = { "-", "=" }, priority = 6, gui = nil, color = mocha.mauve, cterm = nil, color_nr = nil, highlight = "ScrollbarMisc" },
-          GitAdd = { text = "│", priority = 7, gui = nil, color = mocha.green, cterm = nil, color_nr = nil, highlight = "ScrollbarGitAdd" },
-          GitChange = { text = "│", priority = 7, gui = nil, color = mocha.peach, cterm = nil, color_nr = nil, highlight = "ScrollbarGitChange" },
-          GitDelete = { text = "▁", priority = 7, gui = nil, color = mocha.red, cterm = nil, color_nr = nil, highlight = "ScrollbarGitDelete" },
+          Cursor = { text = "•", priority = 0, gui = nil, color = colors.mauve, cterm = nil, color_nr = nil, highlight = "ScrollbarCursor" },
+          Search = { text = { "-", "=" }, priority = 1, gui = nil, color = colors.peach, cterm = nil, color_nr = nil, highlight = "ScrollbarSearch" },
+          Error = { text = { "-", "=" }, priority = 2, gui = nil, color = colors.red, cterm = nil, color_nr = nil, highlight = "ScrollbarError" },
+          Warn = { text = { "-", "=" }, priority = 3, gui = nil, color = colors.yellow, cterm = nil, color_nr = nil, highlight = "ScrollbarWarn" },
+          Info = { text = { "-", "=" }, priority = 4, gui = nil, color = colors.sky, cterm = nil, color_nr = nil, highlight = "ScrollbarInfo" },
+          Hint = { text = { "-", "=" }, priority = 5, gui = nil, color = colors.teal, cterm = nil, color_nr = nil, highlight = "ScrollbarHint" },
+          Misc = { text = { "-", "=" }, priority = 6, gui = nil, color = colors.mauve, cterm = nil, color_nr = nil, highlight = "ScrollbarMisc" },
+          GitAdd = { text = "│", priority = 7, gui = nil, color = colors.green, cterm = nil, color_nr = nil, highlight = "ScrollbarGitAdd" },
+          GitChange = { text = "│", priority = 7, gui = nil, color = colors.peach, cterm = nil, color_nr = nil, highlight = "ScrollbarGitChange" },
+          GitDelete = { text = "▁", priority = 7, gui = nil, color = colors.red, cterm = nil, color_nr = nil, highlight = "ScrollbarGitDelete" },
         },
         excluded_buftypes = { "terminal" },
         excluded_filetypes = { "alpha", "NvimTree", "lazy", "mason", "TelescopePrompt" },
@@ -1309,7 +839,6 @@ return {
     event = "VeryLazy",
     version = "2.*",
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
 
       require("window-picker").setup({
         hint = "floating-big-letter",
@@ -1335,8 +864,8 @@ return {
       },
     },
     highlights = {
-    statusline = { focused = { fg = mocha.base, bg = mocha.mauve, bold = true }, unfocused = { fg = mocha.base, bg = mocha.surface1 } },
-    winbar = { focused = { fg = mocha.base, bg = mocha.mauve, bold = true }, unfocused = { fg = mocha.base, bg = mocha.surface1 } },
+    statusline = { focused = { fg = colors.base, bg = colors.mauve, bold = true }, unfocused = { fg = colors.base, bg = colors.surface1 } },
+    winbar = { focused = { fg = colors.base, bg = colors.mauve, bold = true }, unfocused = { fg = colors.base, bg = colors.surface1 } },
   },
 })
     end,
@@ -1350,16 +879,15 @@ return {
     ft = { "markdown", "norg", "org", "rmd" },
     dependencies = "nvim-treesitter/nvim-treesitter",
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
-      vim.api.nvim_set_hl(0, "Headline1", { fg = mocha.red, bg = mocha.surface0, bold = true })
-      vim.api.nvim_set_hl(0, "Headline2", { fg = mocha.peach, bg = mocha.surface0, bold = true })
-      vim.api.nvim_set_hl(0, "Headline3", { fg = mocha.yellow, bg = mocha.surface0, bold = true })
-      vim.api.nvim_set_hl(0, "Headline4", { fg = mocha.green, bg = mocha.surface0, bold = true })
-      vim.api.nvim_set_hl(0, "Headline5", { fg = mocha.blue, bg = mocha.surface0, bold = true })
-      vim.api.nvim_set_hl(0, "Headline6", { fg = mocha.mauve, bg = mocha.surface0, bold = true })
-      vim.api.nvim_set_hl(0, "CodeBlock", { bg = mocha.mantle })
-      vim.api.nvim_set_hl(0, "Dash", { fg = mocha.overlay0, bold = true })
-      vim.api.nvim_set_hl(0, "Quote", { fg = mocha.subtext1, italic = true })
+      vim.api.nvim_set_hl(0, "Headline1", { fg = colors.red, bg = colors.surface0, bold = true })
+      vim.api.nvim_set_hl(0, "Headline2", { fg = colors.peach, bg = colors.surface0, bold = true })
+      vim.api.nvim_set_hl(0, "Headline3", { fg = colors.yellow, bg = colors.surface0, bold = true })
+      vim.api.nvim_set_hl(0, "Headline4", { fg = colors.green, bg = colors.surface0, bold = true })
+      vim.api.nvim_set_hl(0, "Headline5", { fg = colors.blue, bg = colors.surface0, bold = true })
+      vim.api.nvim_set_hl(0, "Headline6", { fg = colors.mauve, bg = colors.surface0, bold = true })
+      vim.api.nvim_set_hl(0, "CodeBlock", { bg = colors.mantle })
+      vim.api.nvim_set_hl(0, "Dash", { fg = colors.overlay0, bold = true })
+      vim.api.nvim_set_hl(0, "Quote", { fg = colors.subtext1, italic = true })
       require("headlines").setup({
       markdown = {
       query = vim.treesitter.query.parse("markdown", [[
@@ -1406,7 +934,7 @@ end,
     title_pos = "center",
     insert_only = true,
     start_in_insert = true,
-    border = "rounded",
+    border = "single",
     relative = "cursor",
     prefer_width = 40,
     width = nil,
@@ -1431,7 +959,7 @@ end,
         telescope = nil,
         builtin = {
         show_numbers = true,
-        border = "rounded",
+        border = "single",
         relative = "editor",
         buf_options = {},
         win_options = { cursorline = true, cursorlineopt = "both" },
@@ -1455,7 +983,6 @@ end,
     "j-hui/fidget.nvim",
     event = "VeryLazy",
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
 
       require("fidget").setup({
         progress = {
@@ -1551,7 +1078,6 @@ end,
     "RRethy/vim-illuminate",
     event = "VeryLazy",
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
 
       require("illuminate").configure({
         providers = { "lsp", "treesitter", "regex" },
@@ -1567,30 +1093,10 @@ end,
         case_insensitive_regex = false,
       })
 
-      vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = mocha.surface1 })
-      vim.api.nvim_set_hl(0, "IlluminatedWordRead", { bg = mocha.surface1 })
-      vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { bg = mocha.surface1 })
+      vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = colors.surface1 })
+      vim.api.nvim_set_hl(0, "IlluminatedWordRead", { bg = colors.surface1 })
+      vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { bg = colors.surface1 })
     end,
-  },
-
-  -- ══════════════════════════════════════════════════════════════════════
-  -- SMEAR-CURSOR (cursor smear effect)
-  -- ══════════════════════════════════════════════════════════════════════
-  {
-    "sphamba/smear-cursor.nvim",
-    event = "VeryLazy",
-    opts = {
-      smear_between_buffers = true,
-      smear_between_neighbor_lines = true,
-      use_floating_windows = true,
-      legacy_computing_symbols_support = false,
-      hide_target_hack = true,
-      cursor_color = "#cba6f7",  -- mauve
-      stiffness = 0.8,
-      trailing_stiffness = 0.5,
-      distance_stop_animating = 0.5,
-      trailing_exponent = 0,
-    },
   },
 
   -- ══════════════════════════════════════════════════════════════════════
@@ -1602,28 +1108,8 @@ end,
     config = function()
       require("mini.cursorword").setup({ delay = 100 })
 
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
-      vim.api.nvim_set_hl(0, "MiniCursorword", { underline = true, sp = mocha.mauve })
-      vim.api.nvim_set_hl(0, "MiniCursorwordCurrent", { underline = true, sp = mocha.mauve })
-    end,
-  },
-
-  -- ══════════════════════════════════════════════════════════════════════
-  -- VIRT-COLUMN (colored column line)
-  -- ══════════════════════════════════════════════════════════════════════
-  {
-    "lukas-reineke/virt-column.nvim",
-    event = "VeryLazy",
-    config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
-
-      require("virt-column").setup({
-        char = "│",
-        virtcolumn = "80,120",
-        highlight = "VirtColumn",
-      })
-
-      vim.api.nvim_set_hl(0, "VirtColumn", { fg = mocha.surface0 })
+      vim.api.nvim_set_hl(0, "MiniCursorword", { underline = true, sp = colors.mauve })
+      vim.api.nvim_set_hl(0, "MiniCursorwordCurrent", { underline = true, sp = colors.mauve })
     end,
   },
 
@@ -1634,15 +1120,14 @@ end,
     "HiPhish/rainbow-delimiters.nvim",
     event = "VeryLazy",
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
 
-      vim.api.nvim_set_hl(0, "RainbowDelimiterRed", { fg = mocha.red })
-      vim.api.nvim_set_hl(0, "RainbowDelimiterYellow", { fg = mocha.yellow })
-      vim.api.nvim_set_hl(0, "RainbowDelimiterBlue", { fg = mocha.blue })
-      vim.api.nvim_set_hl(0, "RainbowDelimiterOrange", { fg = mocha.peach })
-      vim.api.nvim_set_hl(0, "RainbowDelimiterGreen", { fg = mocha.green })
-      vim.api.nvim_set_hl(0, "RainbowDelimiterViolet", { fg = mocha.mauve })
-      vim.api.nvim_set_hl(0, "RainbowDelimiterCyan", { fg = mocha.teal })
+      vim.api.nvim_set_hl(0, "RainbowDelimiterRed", { fg = colors.red })
+      vim.api.nvim_set_hl(0, "RainbowDelimiterYellow", { fg = colors.yellow })
+      vim.api.nvim_set_hl(0, "RainbowDelimiterBlue", { fg = colors.blue })
+      vim.api.nvim_set_hl(0, "RainbowDelimiterOrange", { fg = colors.peach })
+      vim.api.nvim_set_hl(0, "RainbowDelimiterGreen", { fg = colors.green })
+      vim.api.nvim_set_hl(0, "RainbowDelimiterViolet", { fg = colors.mauve })
+      vim.api.nvim_set_hl(0, "RainbowDelimiterCyan", { fg = colors.teal })
 
       local rainbow_delimiters = require("rainbow-delimiters")
 
@@ -1679,7 +1164,6 @@ end,
     "lewis6991/gitsigns.nvim",
     event = "VeryLazy",
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
 
       require("gitsigns").setup({
         signs = {
@@ -1718,7 +1202,7 @@ end,
         status_formatter = nil,
         max_file_length = 40000,
         preview_config = {
-          border = "rounded",
+          border = "single",
           style = "minimal",
           relative = "cursor",
           row = 0,
@@ -1760,7 +1244,6 @@ end,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     cmd = { "Trouble", "TroubleToggle" },
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
 
       require("trouble").setup({
         position = "bottom",
