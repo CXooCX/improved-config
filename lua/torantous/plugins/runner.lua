@@ -78,13 +78,16 @@ Runner.config = {
 			icon = "",
 			name = "C++",
 
-			-- UPDATED: Added "-stdlib=libc++" to build, run, and build_run
-			build = "clang++ -stdlib=libc++ -Wall -Wextra -std=c++23 -g %a %f -o %b",
-			run = "clang++ -stdlib=libc++ -Wall -Wextra -std=c++23 -g %f -o %b && ./%b %a",
-			build_run = "clang++ -stdlib=libc++ -Wall -Wextra -std=c++23 -g %f -o %b && ./%b %a",
+			-- Default: system standard library (libstdc++/GNU ABI)
+			build = "clang++ -Wall -Wextra -std=c++23 -g %a %f -o %b",
+			run = "clang++ -Wall -Wextra -std=c++23 -g %f -o %b && ./%b %a",
+			build_run = "clang++ -Wall -Wextra -std=c++23 -g %f -o %b && ./%b %a",
 
-			-- Keep the rest (cpp20, gpp_build, etc.) exactly as they were...
-			cpp20 = "clang++ -stdlib=libc++ -Wall -Wextra -std=c++20 -g %a %f -o %b && ./%b %a",
+			-- LLVM mode: explicit libc++ (use when targeting LLVM toolchain)
+			llvm = "clang++ -stdlib=libc++ -Wall -Wextra -std=c++23 -g %f -o %b && ./%b %a",
+			llvm_build = "clang++ -stdlib=libc++ -Wall -Wextra -std=c++23 -g %a %f -o %b",
+
+			cpp20 = "clang++ -Wall -Wextra -std=c++20 -g %a %f -o %b && ./%b %a",
 
 			-- (Alternate G++ and Win32 sections remain unchanged)
 			gpp_build = "g++ -Wall -Wextra -std=c++23 -g %a %f -o %b",
@@ -328,7 +331,7 @@ Runner.config = {
 	},
 
 	ui = {
-		border = "rounded",
+		border = "single",
 		width = 0.8,
 		height = 0.6,
 	},
@@ -377,7 +380,9 @@ local function get_file_info()
 	local bufname = vim.api.nvim_buf_get_name(bufnr)
 	local ft = vim.bo[bufnr].filetype
 
-	-- Scratchpad support: unnamed buffer → write to /tmp
+	-- Scratchpad support: unnamed buffer → write to RAM-backed tmpfs
+	-- Uses /dev/shm (Linux shared memory) so artifacts never hit persistent disk
+	-- and are wiped on reboot. Falls back to /tmp for non-Linux systems.
 	if not bufname or bufname == "" then
 		local ext_map = {
 			cpp = "cpp",
@@ -396,7 +401,8 @@ local function get_file_info()
 			php = "php",
 		}
 		local ext = ext_map[ft] or ft
-		local tmp_path = "/tmp/nvim_scratch_" .. os.time() .. "." .. ext
+		local scratch_dir = vim.fn.isdirectory("/dev/shm") == 1 and "/dev/shm" or "/tmp"
+		local tmp_path = scratch_dir .. "/nvim_scratch_" .. os.time() .. "." .. ext
 
 		-- Write buffer content to temp file
 		local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
@@ -1001,7 +1007,8 @@ function Runner.run(mode, args, opts)
 		table.insert(header, "│ Env:  " .. env_str)
 	end
 	if file_info.is_scratch then
-		table.insert(header, "│ Note: Running from scratchpad (/tmp)")
+		local scratch_dir = vim.fn.isdirectory("/dev/shm") == 1 and "/dev/shm" or "/tmp"
+		table.insert(header, "│ Note: Running from scratchpad (" .. scratch_dir .. ")")
 	end
 	if Runner.state.watch[bufnr] then
 		table.insert(header, "│  Watch mode ACTIVE")

@@ -108,7 +108,7 @@ return {
         use_git = true,
         z_index = 1,
         screen_bounds = "lines",
-        window_border = "rounded",
+        window_border = "single",
       })
       
       -- Add keymap for toggling minimap
@@ -152,7 +152,7 @@ return {
             border = "Normal",
             accent = wilder.make_hl("WilderAccent", "Pmenu", { { a = 1 }, { a = 1 }, { foreground = mocha.mauve } }),
           },
-          border = "rounded",
+          border = "single",
           max_height = 15,
           min_height = 0,
           prompt_position = "top",
@@ -161,25 +161,6 @@ return {
           right = { " ", wilder.popupmenu_scrollbar() },
         }))
       )
-    end,
-  },
-
-  -- ══════════════════════════════════════════════════════════════════════
-  -- BLOCK.NVIM (animated scope indicator)
-  -- ══════════════════════════════════════════════════════════════════════
-  {
-    "HampusHauffman/block.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("block").setup({
-        percent = 0.8,
-        depth = 4,
-        colors = nil, -- Uses theme colors
-        automatic = false,
-      })
-      
-      -- Add keymap for toggling block highlighting
-      vim.keymap.set("n", "<leader>ub", "<cmd>Block<cr>", { desc = "Toggle block highlighting" })
     end,
   },
 

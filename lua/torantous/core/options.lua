@@ -24,7 +24,12 @@ vim.opt.timeoutlen = 400
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.clipboard = "unnamedplus"
+
+-- ── OpSec: Kill all logging / forensic artifacts ──
 vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.writebackup = false
+vim.opt.shadafile = "NONE"
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.stdpath("state") .. "/undo"
 vim.opt.fillchars = {
