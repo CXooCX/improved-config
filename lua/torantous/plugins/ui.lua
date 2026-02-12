@@ -778,7 +778,6 @@ return {
           cursor = true,
           modemsg = true,
         },
-        load = {},
       })
     end,
   },
